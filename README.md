@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
+<meta name="google-site-verification" content="rHmCgUZ2ZT-8CRGZquthCiOiFDRKHDZfzKnSAEhB41c" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dream Planner</title>
