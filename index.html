@@ -1,0 +1,1315 @@
+```html
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dream Planner</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap');
+
+:root{
+    --bg:#f7f4ff;
+    --card:rgba(255,255,255,.78);
+    --text:#262333;
+    --muted:#858197;
+    --primary:#8b5cf6;
+    --primary2:#c084fc;
+    --pink:#f472b6;
+    --blue:#60a5fa;
+    --green:#34d399;
+    --yellow:#fbbf24;
+    --danger:#fb7185;
+    --border:rgba(139,92,246,.12);
+    --shadow:0 20px 60px rgba(80,55,130,.12);
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:"Vazirmatn",sans-serif;
+    background:
+        radial-gradient(circle at 10% 10%,rgba(192,132,252,.25),transparent 25%),
+        radial-gradient(circle at 90% 15%,rgba(96,165,250,.20),transparent 25%),
+        radial-gradient(circle at 70% 90%,rgba(244,114,182,.15),transparent 25%),
+        var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    transition:.3s;
+}
+
+body.dark{
+    --bg:#12101b;
+    --card:rgba(30,27,43,.85);
+    --text:#f7f4ff;
+    --muted:#aaa4bc;
+    --border:rgba(255,255,255,.08);
+    --shadow:0 20px 70px rgba(0,0,0,.35);
+}
+
+button,input,select{
+    font-family:inherit;
+}
+
+button{
+    cursor:pointer;
+    border:0;
+}
+
+.app{
+    display:flex;
+    min-height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:250px;
+    padding:25px 18px;
+    background:rgba(255,255,255,.45);
+    backdrop-filter:blur(20px);
+    border-left:1px solid var(--border);
+    position:fixed;
+    right:0;
+    top:0;
+    bottom:0;
+    z-index:10;
+}
+
+.dark .sidebar{
+    background:rgba(20,18,30,.75);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-size:21px;
+    font-weight:900;
+    margin-bottom:35px;
+}
+
+.logo-icon{
+    width:45px;
+    height:45px;
+    border-radius:15px;
+    display:grid;
+    place-items:center;
+    color:white;
+    font-size:22px;
+    background:linear-gradient(135deg,var(--primary),var(--pink));
+    box-shadow:0 10px 25px rgba(139,92,246,.3);
+}
+
+.menu{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.menu button{
+    background:transparent;
+    color:var(--muted);
+    text-align:right;
+    padding:13px 15px;
+    border-radius:14px;
+    font-size:14px;
+    transition:.25s;
+}
+
+.menu button:hover,
+.menu button.active{
+    background:rgba(139,92,246,.11);
+    color:var(--primary);
+    transform:translateX(-3px);
+}
+
+.sidebar-bottom{
+    position:absolute;
+    bottom:25px;
+    left:18px;
+    right:18px;
+}
+
+.theme-btn{
+    width:100%;
+    padding:12px;
+    border-radius:14px;
+    background:var(--card);
+    color:var(--text);
+}
+
+/* MAIN */
+
+.main{
+    margin-right:250px;
+    width:calc(100% - 250px);
+    padding:30px;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.greeting h1{
+    font-size:28px;
+    font-weight:900;
+}
+
+.greeting p{
+    color:var(--muted);
+    margin-top:5px;
+    font-size:13px;
+}
+
+.date-pill{
+    background:var(--card);
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+    padding:11px 17px;
+    border-radius:16px;
+    color:var(--muted);
+    font-size:13px;
+}
+
+/* STATS */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+    margin-bottom:22px;
+}
+
+.stat{
+    background:var(--card);
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+    border-radius:22px;
+    padding:20px;
+    position:relative;
+    overflow:hidden;
+}
+
+.stat::after{
+    content:"";
+    width:80px;
+    height:80px;
+    position:absolute;
+    left:-25px;
+    bottom:-30px;
+    border-radius:50%;
+    background:var(--primary);
+    opacity:.07;
+}
+
+.stat-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.stat-icon{
+    width:40px;
+    height:40px;
+    border-radius:13px;
+    display:grid;
+    place-items:center;
+    background:rgba(139,92,246,.1);
+}
+
+.stat h3{
+    font-size:27px;
+    margin-top:13px;
+}
+
+.stat p{
+    color:var(--muted);
+    font-size:12px;
+}
+
+/* GRID */
+
+.dashboard{
+    display:grid;
+    grid-template-columns:1.4fr .9fr;
+    gap:20px;
+}
+
+.panel{
+    background:var(--card);
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+    border-radius:24px;
+    padding:22px;
+}
+
+.panel-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.panel-title{
+    font-weight:800;
+    font-size:17px;
+}
+
+.add-btn{
+    background:linear-gradient(135deg,var(--primary),var(--primary2));
+    color:white;
+    padding:10px 16px;
+    border-radius:13px;
+    box-shadow:0 10px 20px rgba(139,92,246,.2);
+    transition:.2s;
+}
+
+.add-btn:hover{
+    transform:translateY(-2px);
+}
+
+/* TASKS */
+
+.task-list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.task{
+    display:flex;
+    align-items:center;
+    gap:13px;
+    padding:13px;
+    border-radius:17px;
+    background:rgba(139,92,246,.045);
+    border:1px solid transparent;
+    transition:.25s;
+}
+
+.task:hover{
+    border-color:var(--border);
+    transform:translateY(-2px);
+}
+
+.check{
+    width:25px;
+    height:25px;
+    border-radius:8px;
+    border:2px solid #c9c2d8;
+    background:transparent;
+    display:grid;
+    place-items:center;
+    color:white;
+    flex:none;
+}
+
+.task.done .check{
+    background:linear-gradient(135deg,var(--green),#10b981);
+    border-color:transparent;
+}
+
+.task.done .task-name{
+    text-decoration:line-through;
+    opacity:.5;
+}
+
+.task-info{
+    flex:1;
+}
+
+.task-name{
+    font-size:14px;
+    font-weight:700;
+}
+
+.task-meta{
+    display:flex;
+    gap:8px;
+    margin-top:5px;
+    color:var(--muted);
+    font-size:10px;
+}
+
+.category{
+    padding:3px 8px;
+    border-radius:8px;
+    background:rgba(139,92,246,.1);
+    color:var(--primary);
+}
+
+.delete{
+    color:var(--danger);
+    background:transparent;
+    font-size:17px;
+    opacity:.6;
+}
+
+.delete:hover{
+    opacity:1;
+}
+
+/* PROGRESS */
+
+.progress-box{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.circle{
+    width:145px;
+    height:145px;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    background:conic-gradient(var(--primary) 0deg,#eee 0deg);
+    position:relative;
+}
+
+.dark .circle{
+    background:conic-gradient(var(--primary) 0deg,#302c3b 0deg);
+}
+
+.circle::before{
+    content:"";
+    position:absolute;
+    width:112px;
+    height:112px;
+    border-radius:50%;
+    background:var(--card);
+}
+
+.circle-content{
+    position:relative;
+    z-index:2;
+    text-align:center;
+}
+
+.circle-content strong{
+    display:block;
+    font-size:26px;
+}
+
+.circle-content span{
+    font-size:10px;
+    color:var(--muted);
+}
+
+.progress-text{
+    flex:1;
+}
+
+.progress-text h3{
+    font-size:17px;
+}
+
+.progress-text p{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:8px;
+    line-height:2;
+}
+
+/* CALENDAR */
+
+.calendar{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:7px;
+}
+
+.day-name{
+    text-align:center;
+    color:var(--muted);
+    font-size:10px;
+    padding:5px;
+}
+
+.day{
+    aspect-ratio:1;
+    border-radius:12px;
+    display:grid;
+    place-items:center;
+    font-size:11px;
+    background:rgba(139,92,246,.045);
+    position:relative;
+    cursor:pointer;
+}
+
+.day:hover{
+    background:rgba(139,92,246,.15);
+}
+
+.day.today{
+    border:2px solid var(--primary);
+}
+
+.day.success{
+    background:linear-gradient(135deg,#a78bfa,#c084fc);
+    color:white;
+}
+
+.day.empty{
+    background:transparent;
+    cursor:default;
+}
+
+/* HABITS */
+
+.habit-item{
+    margin-bottom:15px;
+}
+
+.habit-head{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:7px;
+    font-size:12px;
+}
+
+.habit-bar{
+    height:8px;
+    border-radius:10px;
+    background:rgba(139,92,246,.09);
+    overflow:hidden;
+}
+
+.habit-fill{
+    height:100%;
+    border-radius:10px;
+    background:linear-gradient(90deg,var(--primary),var(--pink));
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(20,15,30,.5);
+    backdrop-filter:blur(8px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:100;
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:430px;
+    max-width:100%;
+    background:var(--card);
+    border:1px solid var(--border);
+    box-shadow:0 30px 100px rgba(0,0,0,.25);
+    border-radius:27px;
+    padding:25px;
+    animation:pop .3s ease;
+}
+
+@keyframes pop{
+    from{transform:scale(.9);opacity:0}
+    to{transform:scale(1);opacity:1}
+}
+
+.modal-title{
+    font-size:20px;
+    font-weight:900;
+    margin-bottom:20px;
+}
+
+.field{
+    margin-bottom:15px;
+}
+
+.field label{
+    display:block;
+    font-size:12px;
+    color:var(--muted);
+    margin-bottom:7px;
+}
+
+.field input,
+.field select{
+    width:100%;
+    border:1px solid var(--border);
+    background:rgba(139,92,246,.05);
+    color:var(--text);
+    padding:12px;
+    border-radius:13px;
+    outline:none;
+}
+
+.modal-actions{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+}
+
+.modal-actions button{
+    flex:1;
+    padding:12px;
+    border-radius:13px;
+}
+
+.cancel{
+    background:rgba(139,92,246,.08);
+    color:var(--text);
+}
+
+.save{
+    background:linear-gradient(135deg,var(--primary),var(--pink));
+    color:white;
+}
+
+/* EMPTY */
+
+.empty{
+    text-align:center;
+    padding:35px 10px;
+    color:var(--muted);
+}
+
+.empty-icon{
+    font-size:35px;
+    margin-bottom:8px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .dashboard{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:750px){
+    .sidebar{
+        width:70px;
+        padding:20px 10px;
+    }
+
+    .logo span,
+    .menu button span,
+    .sidebar-bottom span{
+        display:none;
+    }
+
+    .logo{
+        justify-content:center;
+    }
+
+    .menu button{
+        text-align:center;
+        font-size:18px;
+        padding:13px 5px;
+    }
+
+    .main{
+        margin-right:70px;
+        width:calc(100% - 70px);
+        padding:18px;
+    }
+
+    .topbar{
+        align-items:flex-start;
+    }
+
+    .greeting h1{
+        font-size:21px;
+    }
+
+    .date-pill{
+        display:none;
+    }
+}
+
+@media(max-width:500px){
+    .stats{
+        grid-template-columns:1fr 1fr;
+        gap:10px;
+    }
+
+    .stat{
+        padding:15px;
+    }
+
+    .stat h3{
+        font-size:22px;
+    }
+
+    .panel{
+        padding:15px;
+    }
+
+    .progress-box{
+        flex-direction:column;
+        text-align:center;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+
+    <div class="logo">
+        <div class="logo-icon">✦</div>
+        <span>Dream Planner</span>
+    </div>
+
+    <div class="menu">
+        <button class="active">
+            🏠 <span>داشبورد</span>
+        </button>
+
+        <button onclick="scrollToTasks()">
+            ✓ <span>کارهای من</span>
+        </button>
+
+        <button onclick="scrollToCalendar()">
+            📅 <span>تقویم</span>
+        </button>
+
+        <button onclick="scrollToHabits()">
+            ✦ <span>عادت‌ها</span>
+        </button>
+    </div>
+
+    <div class="sidebar-bottom">
+        <button class="theme-btn" onclick="toggleTheme()">
+            ◐ <span>تغییر تم</span>
+        </button>
+    </div>
+
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+    <div class="topbar">
+
+        <div class="greeting">
+            <h1>سلام! آماده‌ای امروز رو بسازی؟ ✨</h1>
+            <p id="todayText"></p>
+        </div>
+
+        <div class="date-pill" id="datePill"></div>
+
+    </div>
+
+    <!-- STATS -->
+
+    <section class="stats">
+
+        <div class="stat">
+            <div class="stat-top">
+                <p>کارهای امروز</p>
+                <div class="stat-icon">✓</div>
+            </div>
+            <h3 id="todayTasks">0</h3>
+            <p>کار ثبت شده</p>
+        </div>
+
+        <div class="stat">
+            <div class="stat-top">
+                <p>انجام شده</p>
+                <div class="stat-icon">✓</div>
+            </div>
+            <h3 id="todayDone">0%</h3>
+            <p>پیشرفت امروز</p>
+        </div>
+
+        <div class="stat">
+            <div class="stat-top">
+                <p>Streak</p>
+                <div class="stat-icon">🔥</div>
+            </div>
+            <h3 id="streak">0</h3>
+            <p>روز پشت سر هم</p>
+        </div>
+
+        <div class="stat">
+            <div class="stat-top">
+                <p>موفقیت ماه</p>
+                <div class="stat-icon">🏆</div>
+            </div>
+            <h3 id="monthSuccess">0%</h3>
+            <p>عملکرد این ماه</p>
+        </div>
+
+    </section>
+
+    <section class="dashboard">
+
+        <!-- TASKS -->
+
+        <div class="panel" id="tasksPanel">
+
+            <div class="panel-header">
+                <div class="panel-title">کارهای امروز ✨</div>
+                <button class="add-btn" onclick="openModal()">+ افزودن</button>
+            </div>
+
+            <div id="taskList" class="task-list"></div>
+
+        </div>
+
+        <!-- PROGRESS -->
+
+        <div class="panel">
+
+            <div class="panel-header">
+                <div class="panel-title">پیشرفت ماهانه</div>
+            </div>
+
+            <div class="progress-box">
+
+                <div class="circle" id="progressCircle">
+
+                    <div class="circle-content">
+                        <strong id="progressPercent">0%</strong>
+                        <span>پیشرفت</span>
+                    </div>
+
+                </div>
+
+                <div class="progress-text">
+                    <h3 id="motivation">شروع کنیم! 🚀</h3>
+                    <p id="progressDescription">
+                        هر قدم کوچیک، تو رو به هدفت نزدیک‌تر می‌کنه.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- CALENDAR -->
+
+        <div class="panel" id="calendarPanel">
+
+            <div class="panel-header">
+                <div>
+                    <div class="panel-title">تقویم فعالیت 📅</div>
+                    <small id="monthName"></small>
+                </div>
+            </div>
+
+            <div class="calendar" id="calendar"></div>
+
+        </div>
+
+        <!-- HABITS -->
+
+        <div class="panel" id="habitsPanel">
+
+            <div class="panel-header">
+                <div class="panel-title">آمار عادت‌ها ✦</div>
+            </div>
+
+            <div id="habitStats"></div>
+
+        </div>
+
+    </section>
+
+</main>
+</div>
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+
+    <div class="modal-box">
+
+        <div class="modal-title">
+            ساخت یک کار جدید ✨
+        </div>
+
+        <div class="field">
+            <label>نام کار</label>
+            <input id="taskInput" placeholder="مثلاً مطالعه ۳۰ دقیقه">
+        </div>
+
+        <div class="field">
+            <label>دسته‌بندی</label>
+
+            <select id="categoryInput">
+                <option>کار</option>
+                <option>درس</option>
+                <option>ورزش</option>
+                <option>سلامتی</option>
+                <option>شخصی</option>
+                <option>عادت</option>
+            </select>
+
+        </div>
+
+        <div class="modal-actions">
+            <button class="cancel" onclick="closeModal()">لغو</button>
+            <button class="save" onclick="addTask()">ساخت کار</button>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const today = new Date();
+
+let data = JSON.parse(localStorage.getItem("dreamPlanner")) || {
+    tasks: []
+};
+
+function save(){
+    localStorage.setItem("dreamPlanner",JSON.stringify(data));
+}
+
+function dateKey(date = new Date()){
+    return date.toISOString().split("T")[0];
+}
+
+function openModal(){
+    document.getElementById("modal").classList.add("show");
+    document.getElementById("taskInput").focus();
+}
+
+function closeModal(){
+    document.getElementById("modal").classList.remove("show");
+    document.getElementById("taskInput").value="";
+}
+
+function addTask(){
+
+    const input = document.getElementById("taskInput");
+    const category = document.getElementById("categoryInput");
+
+    const name = input.value.trim();
+
+    if(!name) return;
+
+    data.tasks.push({
+        id:Date.now(),
+        name:name,
+        category:category.value,
+        history:{}
+    });
+
+    save();
+    closeModal();
+    render();
+}
+
+function toggleTask(id){
+
+    const task = data.tasks.find(t => t.id === id);
+
+    if(!task) return;
+
+    const key = dateKey();
+
+    task.history[key] = !task.history[key];
+
+    save();
+    render();
+}
+
+function deleteTask(id){
+
+    if(!confirm("این کار حذف شود؟")) return;
+
+    data.tasks = data.tasks.filter(t => t.id !== id);
+
+    save();
+    render();
+}
+
+function renderTasks(){
+
+    const list = document.getElementById("taskList");
+
+    if(data.tasks.length === 0){
+
+        list.innerHTML = `
+        <div class="empty">
+            <div class="empty-icon">🌱</div>
+            هنوز کاری اضافه نکردی.
+            <br>
+            اولین هدفت رو بساز!
+        </div>
+        `;
+
+        return;
+    }
+
+    const key = dateKey();
+
+    list.innerHTML = data.tasks.map(task => {
+
+        const done = task.history[key];
+
+        return `
+        <div class="task ${done ? "done":""}">
+
+            <button class="check"
+                onclick="toggleTask(${task.id})">
+                ${done ? "✓" : ""}
+            </button>
+
+            <div class="task-info">
+
+                <div class="task-name">
+                    ${escapeHTML(task.name)}
+                </div>
+
+                <div class="task-meta">
+                    <span class="category">${task.category}</span>
+                    <span>${countDone(task)} بار انجام شده</span>
+                </div>
+
+            </div>
+
+            <button class="delete"
+                onclick="deleteTask(${task.id})">
+                ×
+            </button>
+
+        </div>
+        `;
+
+    }).join("");
+}
+
+function countDone(task){
+
+    return Object.values(task.history)
+        .filter(Boolean).length;
+}
+
+function todayStats(){
+
+    const key = dateKey();
+
+    const total = data.tasks.length;
+
+    const done = data.tasks.filter(
+        task => task.history[key]
+    ).length;
+
+    const percent = total
+        ? Math.round((done / total) * 100)
+        : 0;
+
+    document.getElementById("todayTasks").textContent = total;
+
+    document.getElementById("todayDone").textContent =
+        percent + "%";
+}
+
+function monthStats(){
+
+    const year = today.getFullYear();
+    const month = today.getMonth();
+
+    let total = 0;
+    let done = 0;
+
+    data.tasks.forEach(task => {
+
+        Object.entries(task.history).forEach(([date,value]) => {
+
+            const d = new Date(date);
+
+            if(
+                d.getFullYear() === year &&
+                d.getMonth() === month
+            ){
+                total++;
+
+                if(value) done++;
+            }
+
+        });
+
+    });
+
+    const percent = total
+        ? Math.round((done / total) * 100)
+        : 0;
+
+    document.getElementById("monthSuccess").textContent =
+        percent + "%";
+
+    document.getElementById("progressPercent").textContent =
+        percent + "%";
+
+    const degrees = percent * 3.6;
+
+    document.getElementById("progressCircle").style.background =
+        `conic-gradient(var(--primary) ${degrees}deg, rgba(139,92,246,.12) ${degrees}deg)`;
+
+    if(percent >= 80){
+
+        document.getElementById("motivation").textContent =
+            "فوق‌العاده‌ای! 🏆";
+
+        document.getElementById("progressDescription").textContent =
+            "این ماه عملکرد فوق‌العاده‌ای داشتی.";
+
+    }else if(percent >= 50){
+
+        document.getElementById("motivation").textContent =
+            "عالی پیش می‌ری! 🔥";
+
+        document.getElementById("progressDescription").textContent =
+            "ادامه بده؛ خیلی خوب داری جلو می‌ری.";
+
+    }else{
+
+        document.getElementById("motivation").textContent =
+            "شروع کنیم! 🚀";
+
+        document.getElementById("progressDescription").textContent =
+            "هر قدم کوچیک، تو رو به هدفت نزدیک‌تر می‌کنه.";
+    }
+}
+
+function renderCalendar(){
+
+    const calendar = document.getElementById("calendar");
+
+    const year = today.getFullYear();
+    const month = today.getMonth();
+
+    const monthNames = [
+        "ژانویه","فوریه","مارس","آوریل",
+        "مه","ژوئن","ژوئیه","اوت",
+        "سپتامبر","اکتبر","نوامبر","دسامبر"
+    ];
+
+    document.getElementById("monthName").textContent =
+        monthNames[month];
+
+    const first = new Date(year,month,1).getDay();
+    const days = new Date(year,month+1,0).getDate();
+
+    let html = "";
+
+    const names = [
+        "ی","د","س","چ","پ","ج","ش"
+    ];
+
+    names.forEach(n => {
+        html += `<div class="day-name">${n}</div>`;
+    });
+
+    for(let i=0;i<first;i++){
+        html += `<div class="day empty"></div>`;
+    }
+
+    for(let day=1;day<=days;day++){
+
+        const d = new Date(year,month,day);
+        const key = dateKey(d);
+
+        let total = data.tasks.length;
+
+        let done = data.tasks.filter(
+            task => task.history[key]
+        ).length;
+
+        let success = total > 0 && done === total;
+
+        let todayClass =
+            key === dateKey()
+            ? "today"
+            : "";
+
+        html += `
+        <div class="day ${success ? "success":""} ${todayClass}">
+            ${day}
+        </div>
+        `;
+    }
+
+    calendar.innerHTML = html;
+}
+
+function renderHabits(){
+
+    const box = document.getElementById("habitStats");
+
+    if(data.tasks.length === 0){
+
+        box.innerHTML =
+        `<div class="empty">هنوز آماری وجود ندارد.</div>`;
+
+        return;
+    }
+
+    box.innerHTML = data.tasks.map(task => {
+
+        const count = countDone(task);
+
+        const percent = Math.min(
+            100,
+            Math.round((count / 30) * 100)
+        );
+
+        return `
+        <div class="habit-item">
+
+            <div class="habit-head">
+                <span>${escapeHTML(task.name)}</span>
+                <span>${count} بار</span>
+            </div>
+
+            <div class="habit-bar">
+                <div
+                    class="habit-fill"
+                    style="width:${percent}%">
+                </div>
+            </div>
+
+        </div>
+        `;
+
+    }).join("");
+}
+
+function calculateStreak(){
+
+    let streak = 0;
+
+    const d = new Date();
+
+    while(true){
+
+        const key = dateKey(d);
+
+        const total = data.tasks.length;
+
+        if(total === 0) break;
+
+        const done = data.tasks.filter(
+            task => task.history[key]
+        ).length;
+
+        if(done !== total) break;
+
+        streak++;
+
+        d.setDate(d.getDate()-1);
+    }
+
+    document.getElementById("streak").textContent = streak;
+}
+
+function updateDate(){
+
+    const options = {
+        weekday:"long",
+        year:"numeric",
+        month:"long",
+        day:"numeric"
+    };
+
+    const text = new Intl.DateTimeFormat(
+        "fa-IR",
+        options
+    ).format(new Date());
+
+    document.getElementById("todayText").textContent =
+        text;
+
+    document.getElementById("datePill").textContent =
+        text;
+}
+
+function toggleTheme(){
+
+    document.body.classList.toggle("dark");
+
+    localStorage.setItem(
+        "plannerDark",
+        document.body.classList.contains("dark")
+    );
+}
+
+function loadTheme(){
+
+    if(localStorage.getItem("plannerDark") === "true"){
+        document.body.classList.add("dark");
+    }
+}
+
+function scrollToTasks(){
+
+    document.getElementById("tasksPanel")
+        .scrollIntoView({behavior:"smooth"});
+}
+
+function scrollToCalendar(){
+
+    document.getElementById("calendarPanel")
+        .scrollIntoView({behavior:"smooth"});
+}
+
+function scrollToHabits(){
+
+    document.getElementById("habitsPanel")
+        .scrollIntoView({behavior:"smooth"});
+}
+
+function escapeHTML(text){
+
+    return text
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
+
+function render(){
+
+    renderTasks();
+    todayStats();
+    monthStats();
+    renderCalendar();
+    renderHabits();
+    calculateStreak();
+    updateDate();
+
+}
+
+loadTheme();
+render();
+
+</script>
+
+</body>
+</html>
+```
