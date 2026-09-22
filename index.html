@@ -6,6 +6,7 @@
 <title>Dream Planner</title>
 
 <style>
+
 *{
     box-sizing:border-box;
     margin:0;
@@ -22,6 +23,38 @@ body{
     font-family:Tahoma,Arial,sans-serif;
     background:#f7f1e8;
     color:#222;
+    transition:
+        background-color .65s ease,
+        color .65s ease;
+}
+
+/* ================= THEME TRANSITION ================= */
+
+.theme-transition{
+    position:fixed;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    pointer-events:none;
+    z-index:99999;
+
+    background:#101010;
+
+    transform:translate(-50%,-50%) scale(0);
+    opacity:0;
+
+    transition:
+        transform .85s cubic-bezier(.22,1,.36,1),
+        opacity .25s ease;
+
+    box-shadow:
+        0 0 35px rgba(255,255,255,.08),
+        0 0 80px rgba(216,185,139,.12);
+}
+
+.theme-transition.active{
+    transform:translate(-50%,-50%) scale(180);
+    opacity:1;
 }
 
 /* ================= SIDEBAR ================= */
@@ -88,6 +121,21 @@ body{
     padding:12px;
     border-radius:12px;
     cursor:pointer;
+
+    transition:
+        transform .25s ease,
+        background .25s ease,
+        box-shadow .25s ease;
+}
+
+.theme-btn:hover{
+    transform:translateY(-2px);
+    background:#2c2c2c;
+    box-shadow:0 8px 25px rgba(0,0,0,.2);
+}
+
+.theme-btn:active{
+    transform:scale(.94);
 }
 
 /* ================= MAIN ================= */
@@ -119,6 +167,11 @@ body{
     border-radius:20px;
     box-shadow:0 5px 20px rgba(0,0,0,.05);
     white-space:nowrap;
+
+    transition:
+        background-color .5s ease,
+        color .5s ease,
+        box-shadow .5s ease;
 }
 
 /* ================= STATS ================= */
@@ -136,6 +189,16 @@ body{
     padding:22px;
     min-width:0;
     box-shadow:0 5px 25px rgba(0,0,0,.05);
+
+    transition:
+        background-color .5s ease,
+        color .5s ease,
+        box-shadow .5s ease,
+        transform .25s ease;
+}
+
+.stat-card:hover{
+    transform:translateY(-3px);
 }
 
 .stat-card h3{
@@ -162,6 +225,11 @@ body{
     padding:22px;
     box-shadow:0 5px 25px rgba(0,0,0,.05);
     min-width:0;
+
+    transition:
+        background-color .5s ease,
+        color .5s ease,
+        box-shadow .5s ease;
 }
 
 .panel-title{
@@ -208,6 +276,10 @@ body{
     padding:14px;
     background:#fafafa;
     border-radius:14px;
+
+    transition:
+        background-color .45s ease,
+        color .45s ease;
 }
 
 .task input{
@@ -280,6 +352,15 @@ body{
 .calendar .day{
     background:#f7f7f7;
     cursor:pointer;
+
+    transition:
+        background-color .35s ease,
+        color .35s ease,
+        transform .2s ease;
+}
+
+.calendar .day:hover{
+    transform:scale(1.05);
 }
 
 .calendar .today{
@@ -303,6 +384,10 @@ body{
     background:#fafafa;
     padding:14px;
     border-radius:14px;
+
+    transition:
+        background-color .45s ease,
+        color .45s ease;
 }
 
 .habit-top{
@@ -347,6 +432,10 @@ body{
     background:white;
     border-radius:22px;
     padding:25px;
+
+    transition:
+        background-color .45s ease,
+        color .45s ease;
 }
 
 .modal-box h2{
@@ -361,6 +450,11 @@ body{
     outline:none;
     font-size:15px;
     margin-bottom:15px;
+
+    transition:
+        background-color .4s ease,
+        color .4s ease,
+        border-color .4s ease;
 }
 
 .modal-actions{
@@ -621,10 +715,33 @@ body.dark .modal-box input{
     color:white;
     border-color:#444;
 }
+
+/* ================= SOFT DARK TRANSITIONS ================= */
+
+body.dark .stat-card h3{
+    color:#aaa;
+}
+
+body.dark .empty{
+    color:#777;
+}
+
+body.dark .primary-btn{
+    background:#f5f5f5;
+    color:#111;
+}
+
+body.dark .primary-btn:hover{
+    background:#fff;
+}
+
 </style>
 </head>
 
 <body>
+
+<!-- THEME ANIMATION -->
+<div class="theme-transition" id="themeTransition"></div>
 
 <!-- ================= SIDEBAR ================= -->
 
@@ -658,7 +775,7 @@ body.dark .modal-box input{
 
     </nav>
 
-    <button class="theme-btn" onclick="toggleTheme()">
+    <button class="theme-btn" onclick="toggleTheme(event)" aria-label="تغییر تم">
         ◐
     </button>
 
@@ -725,9 +842,11 @@ body.dark .modal-box input{
             </div>
 
             <div class="task-list" id="taskList">
+
                 <div class="empty">
                     هنوز کاری اضافه نکرده‌ای
                 </div>
+
             </div>
 
         </div>
@@ -867,6 +986,7 @@ let activeDays = Number(
     localStorage.getItem("dreamPlannerActiveDays") || 0
 );
 
+
 /* ================= DATE ================= */
 
 function updateDate(){
@@ -884,6 +1004,7 @@ function updateDate(){
         now.toLocaleDateString("fa-IR",options);
 }
 
+
 /* ================= SAVE ================= */
 
 function saveData(){
@@ -898,6 +1019,7 @@ function saveData(){
         activeDays
     );
 }
+
 
 /* ================= RENDER TASKS ================= */
 
@@ -959,6 +1081,7 @@ function renderTasks(){
     updateStats();
 }
 
+
 /* ================= ESCAPE ================= */
 
 function escapeHTML(text){
@@ -969,6 +1092,7 @@ function escapeHTML(text){
 
     return div.innerHTML;
 }
+
 
 /* ================= ADD TASK ================= */
 
@@ -996,6 +1120,7 @@ function addTask(){
     closeModal();
 }
 
+
 /* ================= TOGGLE ================= */
 
 function toggleTask(index){
@@ -1008,6 +1133,7 @@ function toggleTask(index){
     renderTasks();
 }
 
+
 /* ================= DELETE ================= */
 
 function deleteTask(index){
@@ -1018,6 +1144,7 @@ function deleteTask(index){
 
     renderTasks();
 }
+
 
 /* ================= STATS ================= */
 
@@ -1067,6 +1194,7 @@ function updateStats(){
         .style.width = percent + "%";
 }
 
+
 /* ================= MODAL ================= */
 
 function openModal(){
@@ -1082,12 +1210,14 @@ function openModal(){
     },100);
 }
 
+
 function closeModal(){
 
     document
         .getElementById("taskModal")
         .classList.remove("show");
 }
+
 
 document
     .getElementById("taskModal")
@@ -1098,6 +1228,7 @@ document
         }
 
     });
+
 
 document
     .getElementById("taskInput")
@@ -1112,6 +1243,7 @@ document
         }
 
     });
+
 
 /* ================= CALENDAR ================= */
 
@@ -1192,6 +1324,7 @@ function generateCalendar(){
     }
 }
 
+
 /* ================= SECTION NAVIGATION ================= */
 
 function showSection(section){
@@ -1252,19 +1385,110 @@ function showSection(section){
     }
 }
 
-/* ================= THEME ================= */
 
-function toggleTheme(){
+/* =====================================================
+   FANTASY THEME TRANSITION
+   ===================================================== */
 
-    document.body.classList.toggle("dark");
+function toggleTheme(event){
 
-    localStorage.setItem(
-        "dreamPlannerDark",
-        document.body.classList.contains("dark")
-    );
+    const transition =
+        document.getElementById("themeTransition");
+
+    const button =
+        document.querySelector(".theme-btn");
+
+    const isDark =
+        !document.body.classList.contains("dark");
+
+    /*
+        محل شروع افکت:
+        دسکتاپ = محل دقیق دکمه
+        موبایل = همان دکمه شناور
+    */
+
+    let x;
+    let y;
+
+    if(event && event.clientX && event.clientY){
+
+        x = event.clientX;
+        y = event.clientY;
+
+    }else{
+
+        const rect = button.getBoundingClientRect();
+
+        x = rect.left + rect.width / 2;
+        y = rect.top + rect.height / 2;
+
+    }
+
+    /*
+        اگر حالت جدید Dark باشد:
+        موج مشکی می‌شود.
+
+        اگر حالت جدید Light باشد:
+        موج کرم می‌شود.
+    */
+
+    transition.style.left = x + "px";
+    transition.style.top = y + "px";
+
+    transition.style.background =
+        isDark
+        ? "#101010"
+        : "#f7f1e8";
+
+    transition.style.boxShadow =
+        isDark
+        ? "0 0 45px rgba(255,255,255,.08), 0 0 100px rgba(216,185,139,.14)"
+        : "0 0 45px rgba(216,185,139,.18), 0 0 100px rgba(247,241,232,.25)";
+
+    /*
+        reset animation
+    */
+
+    transition.classList.remove("active");
+
+    void transition.offsetWidth;
+
+    /*
+        شروع موج
+    */
+
+    transition.classList.add("active");
+
+    /*
+        کمی بعد از شروع موج،
+        تم اصلی تغییر می‌کند تا
+        کاربر یک transition کاملاً نرم ببیند.
+    */
+
+    setTimeout(()=>{
+
+        document.body.classList.toggle("dark");
+
+        localStorage.setItem(
+            "dreamPlannerDark",
+            document.body.classList.contains("dark")
+        );
+
+    },180);
+
+    /*
+        حذف لایه بعد از پایان انیمیشن
+    */
+
+    setTimeout(()=>{
+
+        transition.classList.remove("active");
+
+    },900);
 }
 
-/* ================= LOAD ================= */
+
+/* ================= LOAD THEME ================= */
 
 function loadTheme(){
 
@@ -1272,9 +1496,12 @@ function loadTheme(){
         localStorage.getItem("dreamPlannerDark");
 
     if(dark === "true"){
+
         document.body.classList.add("dark");
+
     }
 }
+
 
 /* ================= START ================= */
 
