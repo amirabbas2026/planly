@@ -1,284 +1,199 @@
-```html
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta name="google-site-verification" content="rHmCgUZ2ZT-8CRGZquthCiOiFDRKHDZfzKnSAEhB41c" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dream Planner</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap');
-
-:root{
-    --bg:#f7f4ff;
-    --card:rgba(255,255,255,.78);
-    --text:#262333;
-    --muted:#858197;
-    --primary:#8b5cf6;
-    --primary2:#c084fc;
-    --pink:#f472b6;
-    --blue:#60a5fa;
-    --green:#34d399;
-    --yellow:#fbbf24;
-    --danger:#fb7185;
-    --border:rgba(139,92,246,.12);
-    --shadow:0 20px 60px rgba(80,55,130,.12);
-}
-
 *{
     box-sizing:border-box;
     margin:0;
     padding:0;
 }
 
+html,body{
+    width:100%;
+    min-height:100%;
+    overflow-x:hidden;
+}
+
 body{
-    font-family:"Vazirmatn",sans-serif;
-    background:
-        radial-gradient(circle at 10% 10%,rgba(192,132,252,.25),transparent 25%),
-        radial-gradient(circle at 90% 15%,rgba(96,165,250,.20),transparent 25%),
-        radial-gradient(circle at 70% 90%,rgba(244,114,182,.15),transparent 25%),
-        var(--bg);
-    color:var(--text);
-    min-height:100vh;
-    transition:.3s;
+    font-family:Tahoma,Arial,sans-serif;
+    background:#f7f1e8;
+    color:#222;
 }
 
-body.dark{
-    --bg:#12101b;
-    --card:rgba(30,27,43,.85);
-    --text:#f7f4ff;
-    --muted:#aaa4bc;
-    --border:rgba(255,255,255,.08);
-    --shadow:0 20px 70px rgba(0,0,0,.35);
-}
-
-button,input,select{
-    font-family:inherit;
-}
-
-button{
-    cursor:pointer;
-    border:0;
-}
-
-.app{
-    display:flex;
-    min-height:100vh;
-}
-
-/* SIDEBAR */
+/* ================= SIDEBAR ================= */
 
 .sidebar{
-    width:250px;
-    padding:25px 18px;
-    background:rgba(255,255,255,.45);
-    backdrop-filter:blur(20px);
-    border-left:1px solid var(--border);
     position:fixed;
     right:0;
     top:0;
-    bottom:0;
-    z-index:10;
-}
-
-.dark .sidebar{
-    background:rgba(20,18,30,.75);
+    width:250px;
+    height:100vh;
+    background:#171717;
+    color:white;
+    padding:25px 18px;
+    z-index:1000;
+    display:flex;
+    flex-direction:column;
 }
 
 .logo{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    font-size:21px;
-    font-weight:900;
-    margin-bottom:35px;
+    text-align:center;
+    font-size:24px;
+    font-weight:bold;
+    margin-bottom:40px;
 }
 
-.logo-icon{
-    width:45px;
-    height:45px;
-    border-radius:15px;
-    display:grid;
-    place-items:center;
-    color:white;
-    font-size:22px;
-    background:linear-gradient(135deg,var(--primary),var(--pink));
-    box-shadow:0 10px 25px rgba(139,92,246,.3);
+.logo span{
+    color:#d8b98b;
 }
 
 .menu{
     display:flex;
     flex-direction:column;
-    gap:8px;
+    gap:10px;
 }
 
 .menu button{
+    border:0;
     background:transparent;
-    color:var(--muted);
-    text-align:right;
-    padding:13px 15px;
+    color:#aaa;
+    padding:14px;
     border-radius:14px;
+    cursor:pointer;
     font-size:14px;
+    text-align:right;
     transition:.25s;
 }
 
 .menu button:hover,
 .menu button.active{
-    background:rgba(139,92,246,.11);
-    color:var(--primary);
-    transform:translateX(-3px);
+    background:#292929;
+    color:#fff;
 }
 
-.sidebar-bottom{
-    position:absolute;
-    bottom:25px;
-    left:18px;
-    right:18px;
+.menu button span{
+    margin-left:10px;
 }
 
 .theme-btn{
+    margin-top:auto;
     width:100%;
+    border:1px solid #444;
+    background:#222;
+    color:white;
     padding:12px;
-    border-radius:14px;
-    background:var(--card);
-    color:var(--text);
+    border-radius:12px;
+    cursor:pointer;
 }
 
-/* MAIN */
+/* ================= MAIN ================= */
 
 .main{
     margin-right:250px;
     width:calc(100% - 250px);
-    padding:30px;
+    min-height:100vh;
+    padding:25px;
 }
+
+/* ================= TOPBAR ================= */
 
 .topbar{
     display:flex;
     justify-content:space-between;
     align-items:center;
+    gap:20px;
     margin-bottom:25px;
 }
 
-.greeting h1{
+.topbar h1{
     font-size:28px;
-    font-weight:900;
-}
-
-.greeting p{
-    color:var(--muted);
-    margin-top:5px;
-    font-size:13px;
 }
 
 .date-pill{
-    background:var(--card);
-    border:1px solid var(--border);
-    box-shadow:var(--shadow);
-    padding:11px 17px;
-    border-radius:16px;
-    color:var(--muted);
-    font-size:13px;
+    background:white;
+    padding:10px 18px;
+    border-radius:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,.05);
+    white-space:nowrap;
 }
 
-/* STATS */
+/* ================= STATS ================= */
 
 .stats{
     display:grid;
     grid-template-columns:repeat(4,1fr);
-    gap:16px;
-    margin-bottom:22px;
+    gap:18px;
+    margin-bottom:25px;
 }
 
-.stat{
-    background:var(--card);
-    border:1px solid var(--border);
-    box-shadow:var(--shadow);
-    border-radius:22px;
-    padding:20px;
-    position:relative;
-    overflow:hidden;
+.stat-card{
+    background:white;
+    border-radius:20px;
+    padding:22px;
+    min-width:0;
+    box-shadow:0 5px 25px rgba(0,0,0,.05);
 }
 
-.stat::after{
-    content:"";
-    width:80px;
-    height:80px;
-    position:absolute;
-    left:-25px;
-    bottom:-30px;
-    border-radius:50%;
-    background:var(--primary);
-    opacity:.07;
+.stat-card h3{
+    font-size:14px;
+    color:#777;
+    margin-bottom:12px;
 }
 
-.stat-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+.stat-card strong{
+    font-size:30px;
 }
 
-.stat-icon{
-    width:40px;
-    height:40px;
-    border-radius:13px;
-    display:grid;
-    place-items:center;
-    background:rgba(139,92,246,.1);
-}
-
-.stat h3{
-    font-size:27px;
-    margin-top:13px;
-}
-
-.stat p{
-    color:var(--muted);
-    font-size:12px;
-}
-
-/* GRID */
+/* ================= DASHBOARD ================= */
 
 .dashboard{
     display:grid;
-    grid-template-columns:1.4fr .9fr;
+    grid-template-columns:1.5fr 1fr;
     gap:20px;
 }
 
 .panel{
-    background:var(--card);
-    border:1px solid var(--border);
-    box-shadow:var(--shadow);
-    border-radius:24px;
+    background:white;
+    border-radius:22px;
     padding:22px;
-}
-
-.panel-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
+    box-shadow:0 5px 25px rgba(0,0,0,.05);
+    min-width:0;
 }
 
 .panel-title{
-    font-weight:800;
-    font-size:17px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
 }
 
-.add-btn{
-    background:linear-gradient(135deg,var(--primary),var(--primary2));
+.panel-title h2{
+    font-size:19px;
+}
+
+/* ================= BUTTONS ================= */
+
+.primary-btn{
+    border:0;
+    background:#171717;
     color:white;
-    padding:10px 16px;
-    border-radius:13px;
-    box-shadow:0 10px 20px rgba(139,92,246,.2);
+    padding:11px 17px;
+    border-radius:12px;
+    cursor:pointer;
     transition:.2s;
 }
 
-.add-btn:hover{
+.primary-btn:hover{
     transform:translateY(-2px);
+    background:#333;
 }
 
-/* TASKS */
+/* ================= TASKS ================= */
 
 .task-list{
     display:flex;
@@ -289,139 +204,58 @@ button{
 .task{
     display:flex;
     align-items:center;
-    gap:13px;
-    padding:13px;
-    border-radius:17px;
-    background:rgba(139,92,246,.045);
-    border:1px solid transparent;
-    transition:.25s;
+    gap:12px;
+    padding:14px;
+    background:#fafafa;
+    border-radius:14px;
 }
 
-.task:hover{
-    border-color:var(--border);
-    transform:translateY(-2px);
+.task input{
+    width:19px;
+    height:19px;
+    cursor:pointer;
 }
 
-.check{
-    width:25px;
-    height:25px;
-    border-radius:8px;
-    border:2px solid #c9c2d8;
-    background:transparent;
-    display:grid;
-    place-items:center;
-    color:white;
-    flex:none;
-}
-
-.task.done .check{
-    background:linear-gradient(135deg,var(--green),#10b981);
-    border-color:transparent;
-}
-
-.task.done .task-name{
-    text-decoration:line-through;
-    opacity:.5;
-}
-
-.task-info{
+.task-text{
     flex:1;
+    min-width:0;
+    overflow-wrap:anywhere;
 }
 
-.task-name{
-    font-size:14px;
-    font-weight:700;
+.task.done .task-text{
+    text-decoration:line-through;
+    opacity:.45;
 }
 
-.task-meta{
-    display:flex;
-    gap:8px;
-    margin-top:5px;
-    color:var(--muted);
-    font-size:10px;
-}
-
-.category{
-    padding:3px 8px;
-    border-radius:8px;
-    background:rgba(139,92,246,.1);
-    color:var(--primary);
-}
-
-.delete{
-    color:var(--danger);
-    background:transparent;
-    font-size:17px;
-    opacity:.6;
-}
-
-.delete:hover{
-    opacity:1;
-}
-
-/* PROGRESS */
+/* ================= PROGRESS ================= */
 
 .progress-box{
+    margin-bottom:22px;
+}
+
+.progress-header{
     display:flex;
-    align-items:center;
-    gap:20px;
+    justify-content:space-between;
+    margin-bottom:9px;
 }
 
-.circle{
-    width:145px;
-    height:145px;
-    border-radius:50%;
-    display:grid;
-    place-items:center;
-    background:conic-gradient(var(--primary) 0deg,#eee 0deg);
-    position:relative;
+.progress{
+    width:100%;
+    height:10px;
+    background:#eee;
+    border-radius:20px;
+    overflow:hidden;
 }
 
-.dark .circle{
-    background:conic-gradient(var(--primary) 0deg,#302c3b 0deg);
+.progress-fill{
+    height:100%;
+    width:0;
+    background:#171717;
+    border-radius:20px;
+    transition:.5s;
 }
 
-.circle::before{
-    content:"";
-    position:absolute;
-    width:112px;
-    height:112px;
-    border-radius:50%;
-    background:var(--card);
-}
-
-.circle-content{
-    position:relative;
-    z-index:2;
-    text-align:center;
-}
-
-.circle-content strong{
-    display:block;
-    font-size:26px;
-}
-
-.circle-content span{
-    font-size:10px;
-    color:var(--muted);
-}
-
-.progress-text{
-    flex:1;
-}
-
-.progress-text h3{
-    font-size:17px;
-}
-
-.progress-text p{
-    color:var(--muted);
-    font-size:12px;
-    margin-top:8px;
-    line-height:2;
-}
-
-/* CALENDAR */
+/* ================= CALENDAR ================= */
 
 .calendar{
     display:grid;
@@ -429,80 +263,79 @@ button{
     gap:7px;
 }
 
-.day-name{
-    text-align:center;
-    color:var(--muted);
-    font-size:10px;
-    padding:5px;
-}
-
-.day{
-    aspect-ratio:1;
-    border-radius:12px;
-    display:grid;
-    place-items:center;
-    font-size:11px;
-    background:rgba(139,92,246,.045);
-    position:relative;
-    cursor:pointer;
-}
-
-.day:hover{
-    background:rgba(139,92,246,.15);
-}
-
-.day.today{
-    border:2px solid var(--primary);
-}
-
-.day.success{
-    background:linear-gradient(135deg,#a78bfa,#c084fc);
-    color:white;
-}
-
-.day.empty{
-    background:transparent;
-    cursor:default;
-}
-
-/* HABITS */
-
-.habit-item{
-    margin-bottom:15px;
-}
-
-.habit-head{
+.calendar div{
+    min-height:38px;
     display:flex;
-    justify-content:space-between;
-    margin-bottom:7px;
+    align-items:center;
+    justify-content:center;
+    border-radius:9px;
     font-size:12px;
 }
 
+.calendar .day-name{
+    font-weight:bold;
+    color:#888;
+}
+
+.calendar .day{
+    background:#f7f7f7;
+    cursor:pointer;
+}
+
+.calendar .today{
+    background:#171717;
+    color:white;
+}
+
+.calendar .selected{
+    outline:2px solid #d8b98b;
+}
+
+/* ================= HABITS ================= */
+
+.habits{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.habit{
+    background:#fafafa;
+    padding:14px;
+    border-radius:14px;
+}
+
+.habit-top{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:9px;
+}
+
 .habit-bar{
-    height:8px;
-    border-radius:10px;
-    background:rgba(139,92,246,.09);
+    height:7px;
+    background:#eee;
+    border-radius:20px;
     overflow:hidden;
 }
 
-.habit-fill{
+.habit-bar div{
     height:100%;
-    border-radius:10px;
-    background:linear-gradient(90deg,var(--primary),var(--pink));
+    width:0;
+    background:#171717;
 }
 
-/* MODAL */
+/* ================= MODAL ================= */
 
 .modal{
     position:fixed;
     inset:0;
-    background:rgba(20,15,30,.5);
-    backdrop-filter:blur(8px);
+    background:rgba(0,0,0,.5);
     display:none;
     align-items:center;
     justify-content:center;
-    z-index:100;
     padding:20px;
+    z-index:3000;
 }
 
 .modal.show{
@@ -510,87 +343,47 @@ button{
 }
 
 .modal-box{
-    width:430px;
-    max-width:100%;
-    background:var(--card);
-    border:1px solid var(--border);
-    box-shadow:0 30px 100px rgba(0,0,0,.25);
-    border-radius:27px;
+    width:min(450px,100%);
+    background:white;
+    border-radius:22px;
     padding:25px;
-    animation:pop .3s ease;
 }
 
-@keyframes pop{
-    from{transform:scale(.9);opacity:0}
-    to{transform:scale(1);opacity:1}
-}
-
-.modal-title{
-    font-size:20px;
-    font-weight:900;
+.modal-box h2{
     margin-bottom:20px;
 }
 
-.field{
-    margin-bottom:15px;
-}
-
-.field label{
-    display:block;
-    font-size:12px;
-    color:var(--muted);
-    margin-bottom:7px;
-}
-
-.field input,
-.field select{
+.modal-box input{
     width:100%;
-    border:1px solid var(--border);
-    background:rgba(139,92,246,.05);
-    color:var(--text);
-    padding:12px;
-    border-radius:13px;
+    padding:14px;
+    border:1px solid #ddd;
+    border-radius:12px;
     outline:none;
+    font-size:15px;
+    margin-bottom:15px;
 }
 
 .modal-actions{
     display:flex;
     gap:10px;
-    margin-top:20px;
 }
 
 .modal-actions button{
     flex:1;
-    padding:12px;
-    border-radius:13px;
 }
 
-.cancel{
-    background:rgba(139,92,246,.08);
-    color:var(--text);
-}
-
-.save{
-    background:linear-gradient(135deg,var(--primary),var(--pink));
-    color:white;
-}
-
-/* EMPTY */
+/* ================= EMPTY ================= */
 
 .empty{
     text-align:center;
-    padding:35px 10px;
-    color:var(--muted);
+    color:#999;
+    padding:30px 10px;
 }
 
-.empty-icon{
-    font-size:35px;
-    margin-bottom:8px;
-}
+/* ================= TABLET ================= */
 
-/* RESPONSIVE */
+@media(max-width:1100px){
 
-@media(max-width:1000px){
     .stats{
         grid-template-columns:repeat(2,1fr);
     }
@@ -600,206 +393,371 @@ button{
     }
 }
 
+/* ================= MOBILE ================= */
+
 @media(max-width:750px){
-    .sidebar{
-        width:70px;
-        padding:20px 10px;
+
+    body{
+        padding-bottom:78px;
     }
 
-    .logo span,
-    .menu button span,
-    .sidebar-bottom span{
-        display:none;
+    .sidebar{
+        top:auto;
+        bottom:0;
+        right:0;
+        width:100%;
+        height:72px;
+        padding:6px 8px;
+        flex-direction:row;
+        align-items:center;
+        justify-content:center;
+        border-radius:18px 18px 0 0;
     }
 
     .logo{
-        justify-content:center;
+        display:none;
+    }
+
+    .menu{
+        width:100%;
+        height:100%;
+        display:grid;
+        grid-template-columns:repeat(4,1fr);
+        gap:5px;
     }
 
     .menu button{
+        padding:5px 2px;
+        border-radius:12px;
         text-align:center;
+        font-size:11px;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        gap:3px;
+    }
+
+    .menu button span{
+        margin:0;
+        font-size:19px;
+    }
+
+    .theme-btn{
+        position:absolute;
+        bottom:82px;
+        left:12px;
+        width:44px;
+        height:44px;
+        padding:0;
+        border-radius:50%;
         font-size:18px;
-        padding:13px 5px;
     }
 
     .main{
-        margin-right:70px;
-        width:calc(100% - 70px);
-        padding:18px;
+        margin-right:0;
+        width:100%;
+        padding:16px;
+        padding-bottom:25px;
     }
 
     .topbar{
         align-items:flex-start;
+        flex-direction:column;
+        gap:12px;
+        margin-bottom:18px;
     }
 
-    .greeting h1{
-        font-size:21px;
+    .topbar h1{
+        font-size:22px;
     }
 
     .date-pill{
-        display:none;
+        width:100%;
+        text-align:center;
+        padding:10px;
     }
-}
 
-@media(max-width:500px){
     .stats{
-        grid-template-columns:1fr 1fr;
+        grid-template-columns:repeat(2,1fr);
         gap:10px;
+        margin-bottom:15px;
     }
 
-    .stat{
+    .stat-card{
         padding:15px;
+        border-radius:16px;
     }
 
-    .stat h3{
-        font-size:22px;
+    .stat-card h3{
+        font-size:12px;
+        margin-bottom:8px;
+    }
+
+    .stat-card strong{
+        font-size:24px;
+    }
+
+    .dashboard{
+        gap:14px;
     }
 
     .panel{
         padding:15px;
+        border-radius:18px;
     }
 
-    .progress-box{
-        flex-direction:column;
-        text-align:center;
+    .panel-title{
+        margin-bottom:15px;
     }
+
+    .panel-title h2{
+        font-size:16px;
+    }
+
+    .primary-btn{
+        padding:9px 12px;
+        font-size:12px;
+    }
+
+    .task{
+        padding:12px;
+        border-radius:12px;
+    }
+
+    .calendar{
+        gap:4px;
+    }
+
+    .calendar div{
+        min-height:34px;
+        font-size:11px;
+    }
+
+    .habit{
+        padding:12px;
+    }
+}
+
+/* ================= SMALL MOBILE ================= */
+
+@media(max-width:380px){
+
+    .main{
+        padding:12px;
+    }
+
+    .stats{
+        gap:8px;
+    }
+
+    .stat-card{
+        padding:12px;
+    }
+
+    .stat-card strong{
+        font-size:21px;
+    }
+
+    .topbar h1{
+        font-size:20px;
+    }
+
+    .panel{
+        padding:12px;
+    }
+
+    .calendar div{
+        min-height:30px;
+        font-size:10px;
+    }
+
+    .menu button{
+        font-size:9px;
+    }
+
+    .menu button span{
+        font-size:17px;
+    }
+}
+
+/* ================= DARK MODE ================= */
+
+body.dark{
+    background:#101010;
+    color:#f5f5f5;
+}
+
+body.dark .panel,
+body.dark .stat-card,
+body.dark .date-pill,
+body.dark .modal-box{
+    background:#1b1b1b;
+    color:#fff;
+}
+
+body.dark .task,
+body.dark .habit,
+body.dark .calendar .day{
+    background:#242424;
+}
+
+body.dark .calendar .day-name{
+    color:#aaa;
+}
+
+body.dark .progress,
+body.dark .habit-bar{
+    background:#333;
+}
+
+body.dark .progress-fill,
+body.dark .habit-bar div{
+    background:#fff;
+}
+
+body.dark .modal-box input{
+    background:#222;
+    color:white;
+    border-color:#444;
 }
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<!-- ================= SIDEBAR ================= -->
 
-<!-- SIDEBAR -->
 <aside class="sidebar">
 
     <div class="logo">
-        <div class="logo-icon">✦</div>
-        <span>Dream Planner</span>
+        Dream <span>Planner</span>
     </div>
 
-    <div class="menu">
-        <button class="active">
-            🏠 <span>داشبورد</span>
+    <nav class="menu">
+
+        <button class="active" onclick="showSection('dashboard')">
+            <span>⌂</span>
+            داشبورد
         </button>
 
-        <button onclick="scrollToTasks()">
-            ✓ <span>کارهای من</span>
+        <button onclick="showSection('tasks')">
+            <span>✓</span>
+            کارها
         </button>
 
-        <button onclick="scrollToCalendar()">
-            📅 <span>تقویم</span>
+        <button onclick="showSection('calendar')">
+            <span>□</span>
+            تقویم
         </button>
 
-        <button onclick="scrollToHabits()">
-            ✦ <span>عادت‌ها</span>
+        <button onclick="showSection('habits')">
+            <span>↗</span>
+            عادت‌ها
         </button>
-    </div>
 
-    <div class="sidebar-bottom">
-        <button class="theme-btn" onclick="toggleTheme()">
-            ◐ <span>تغییر تم</span>
-        </button>
-    </div>
+    </nav>
+
+    <button class="theme-btn" onclick="toggleTheme()">
+        ◐
+    </button>
 
 </aside>
 
-<!-- MAIN -->
+<!-- ================= MAIN ================= -->
+
 <main class="main">
 
-    <div class="topbar">
+    <header class="topbar">
 
-        <div class="greeting">
-            <h1>سلام! آماده‌ای امروز رو بسازی؟ ✨</h1>
-            <p id="todayText"></p>
+        <div>
+            <h1>برنامه امروز من</h1>
         </div>
 
-        <div class="date-pill" id="datePill"></div>
+        <div class="date-pill" id="currentDate">
+            ---
+        </div>
 
-    </div>
+    </header>
 
-    <!-- STATS -->
+    <!-- ================= STATS ================= -->
 
     <section class="stats">
 
-        <div class="stat">
-            <div class="stat-top">
-                <p>کارهای امروز</p>
-                <div class="stat-icon">✓</div>
-            </div>
-            <h3 id="todayTasks">0</h3>
-            <p>کار ثبت شده</p>
+        <div class="stat-card">
+            <h3>کل کارها</h3>
+            <strong id="totalTasks">0</strong>
         </div>
 
-        <div class="stat">
-            <div class="stat-top">
-                <p>انجام شده</p>
-                <div class="stat-icon">✓</div>
-            </div>
-            <h3 id="todayDone">0%</h3>
-            <p>پیشرفت امروز</p>
+        <div class="stat-card">
+            <h3>انجام شده</h3>
+            <strong id="completedTasks">0</strong>
         </div>
 
-        <div class="stat">
-            <div class="stat-top">
-                <p>Streak</p>
-                <div class="stat-icon">🔥</div>
-            </div>
-            <h3 id="streak">0</h3>
-            <p>روز پشت سر هم</p>
+        <div class="stat-card">
+            <h3>درصد پیشرفت</h3>
+            <strong id="completionPercent">0%</strong>
         </div>
 
-        <div class="stat">
-            <div class="stat-top">
-                <p>موفقیت ماه</p>
-                <div class="stat-icon">🏆</div>
-            </div>
-            <h3 id="monthSuccess">0%</h3>
-            <p>عملکرد این ماه</p>
+        <div class="stat-card">
+            <h3>روزهای فعال</h3>
+            <strong id="activeDays">0</strong>
         </div>
 
     </section>
 
+    <!-- ================= DASHBOARD ================= -->
+
     <section class="dashboard">
 
-        <!-- TASKS -->
+        <!-- TASK PANEL -->
 
         <div class="panel" id="tasksPanel">
 
-            <div class="panel-header">
-                <div class="panel-title">کارهای امروز ✨</div>
-                <button class="add-btn" onclick="openModal()">+ افزودن</button>
+            <div class="panel-title">
+
+                <h2>کارهای امروز</h2>
+
+                <button class="primary-btn" onclick="openModal()">
+                    + افزودن کار
+                </button>
+
             </div>
 
-            <div id="taskList" class="task-list"></div>
+            <div class="task-list" id="taskList">
+                <div class="empty">
+                    هنوز کاری اضافه نکرده‌ای
+                </div>
+            </div>
 
         </div>
 
-        <!-- PROGRESS -->
+        <!-- PROGRESS PANEL -->
 
         <div class="panel">
 
-            <div class="panel-header">
-                <div class="panel-title">پیشرفت ماهانه</div>
+            <div class="panel-title">
+                <h2>پیشرفت ماهانه</h2>
             </div>
 
             <div class="progress-box">
 
-                <div class="circle" id="progressCircle">
-
-                    <div class="circle-content">
-                        <strong id="progressPercent">0%</strong>
-                        <span>پیشرفت</span>
-                    </div>
-
+                <div class="progress-header">
+                    <span>پیشرفت کلی</span>
+                    <strong id="monthlyPercent">0%</strong>
                 </div>
 
-                <div class="progress-text">
-                    <h3 id="motivation">شروع کنیم! 🚀</h3>
-                    <p id="progressDescription">
-                        هر قدم کوچیک، تو رو به هدفت نزدیک‌تر می‌کنه.
-                    </p>
+                <div class="progress">
+                    <div class="progress-fill" id="monthlyProgress"></div>
+                </div>
+
+            </div>
+
+            <div class="progress-box">
+
+                <div class="progress-header">
+                    <span>کارهای انجام‌شده</span>
+                    <strong id="monthlyCompleted">0</strong>
                 </div>
 
             </div>
@@ -810,11 +768,8 @@ button{
 
         <div class="panel" id="calendarPanel">
 
-            <div class="panel-header">
-                <div>
-                    <div class="panel-title">تقویم فعالیت 📅</div>
-                    <small id="monthName"></small>
-                </div>
+            <div class="panel-title">
+                <h2>تقویم</h2>
             </div>
 
             <div class="calendar" id="calendar"></div>
@@ -825,51 +780,75 @@ button{
 
         <div class="panel" id="habitsPanel">
 
-            <div class="panel-header">
-                <div class="panel-title">آمار عادت‌ها ✦</div>
+            <div class="panel-title">
+                <h2>عادت‌های من</h2>
             </div>
 
-            <div id="habitStats"></div>
+            <div class="habits" id="habits">
+
+                <div class="habit">
+
+                    <div class="habit-top">
+                        <span>برنامه‌ریزی روزانه</span>
+                        <strong id="habit1Percent">0%</strong>
+                    </div>
+
+                    <div class="habit-bar">
+                        <div id="habit1Bar"></div>
+                    </div>
+
+                </div>
+
+                <div class="habit">
+
+                    <div class="habit-top">
+                        <span>انجام کارهای مهم</span>
+                        <strong id="habit2Percent">0%</strong>
+                    </div>
+
+                    <div class="habit-bar">
+                        <div id="habit2Bar"></div>
+                    </div>
+
+                </div>
+
+            </div>
 
         </div>
 
     </section>
 
 </main>
-</div>
 
-<!-- MODAL -->
+<!-- ================= MODAL ================= -->
 
-<div class="modal" id="modal">
+<div class="modal" id="taskModal">
 
     <div class="modal-box">
 
-        <div class="modal-title">
-            ساخت یک کار جدید ✨
-        </div>
+        <h2>افزودن کار جدید</h2>
 
-        <div class="field">
-            <label>نام کار</label>
-            <input id="taskInput" placeholder="مثلاً مطالعه ۳۰ دقیقه">
-        </div>
-
-        <div class="field">
-            <label>دسته‌بندی</label>
-
-            <select id="categoryInput">
-                <option>کار</option>
-                <option>درس</option>
-                <option>ورزش</option>
-                <option>سلامتی</option>
-                <option>شخصی</option>
-                <option>عادت</option>
-            </select>
-
-        </div>
+        <input
+            type="text"
+            id="taskInput"
+            placeholder="مثلاً: مطالعه ۳۰ دقیقه"
+            autocomplete="off"
+        >
 
         <div class="modal-actions">
-            <button class="cancel" onclick="closeModal()">لغو</button>
-            <button class="save" onclick="addTask()">ساخت کار</button>
+
+            <button class="primary-btn" onclick="addTask()">
+                افزودن
+            </button>
+
+            <button
+                class="primary-btn"
+                style="background:#eee;color:#222"
+                onclick="closeModal()"
+            >
+                لغو
+            </button>
+
         </div>
 
     </div>
@@ -878,357 +857,21 @@ button{
 
 <script>
 
-const today = new Date();
+/* ================= DATA ================= */
 
-let data = JSON.parse(localStorage.getItem("dreamPlanner")) || {
-    tasks: []
-};
+let tasks = JSON.parse(
+    localStorage.getItem("dreamPlannerTasks") || "[]"
+);
 
-function save(){
-    localStorage.setItem("dreamPlanner",JSON.stringify(data));
-}
+let activeDays = Number(
+    localStorage.getItem("dreamPlannerActiveDays") || 0
+);
 
-function dateKey(date = new Date()){
-    return date.toISOString().split("T")[0];
-}
-
-function openModal(){
-    document.getElementById("modal").classList.add("show");
-    document.getElementById("taskInput").focus();
-}
-
-function closeModal(){
-    document.getElementById("modal").classList.remove("show");
-    document.getElementById("taskInput").value="";
-}
-
-function addTask(){
-
-    const input = document.getElementById("taskInput");
-    const category = document.getElementById("categoryInput");
-
-    const name = input.value.trim();
-
-    if(!name) return;
-
-    data.tasks.push({
-        id:Date.now(),
-        name:name,
-        category:category.value,
-        history:{}
-    });
-
-    save();
-    closeModal();
-    render();
-}
-
-function toggleTask(id){
-
-    const task = data.tasks.find(t => t.id === id);
-
-    if(!task) return;
-
-    const key = dateKey();
-
-    task.history[key] = !task.history[key];
-
-    save();
-    render();
-}
-
-function deleteTask(id){
-
-    if(!confirm("این کار حذف شود؟")) return;
-
-    data.tasks = data.tasks.filter(t => t.id !== id);
-
-    save();
-    render();
-}
-
-function renderTasks(){
-
-    const list = document.getElementById("taskList");
-
-    if(data.tasks.length === 0){
-
-        list.innerHTML = `
-        <div class="empty">
-            <div class="empty-icon">🌱</div>
-            هنوز کاری اضافه نکردی.
-            <br>
-            اولین هدفت رو بساز!
-        </div>
-        `;
-
-        return;
-    }
-
-    const key = dateKey();
-
-    list.innerHTML = data.tasks.map(task => {
-
-        const done = task.history[key];
-
-        return `
-        <div class="task ${done ? "done":""}">
-
-            <button class="check"
-                onclick="toggleTask(${task.id})">
-                ${done ? "✓" : ""}
-            </button>
-
-            <div class="task-info">
-
-                <div class="task-name">
-                    ${escapeHTML(task.name)}
-                </div>
-
-                <div class="task-meta">
-                    <span class="category">${task.category}</span>
-                    <span>${countDone(task)} بار انجام شده</span>
-                </div>
-
-            </div>
-
-            <button class="delete"
-                onclick="deleteTask(${task.id})">
-                ×
-            </button>
-
-        </div>
-        `;
-
-    }).join("");
-}
-
-function countDone(task){
-
-    return Object.values(task.history)
-        .filter(Boolean).length;
-}
-
-function todayStats(){
-
-    const key = dateKey();
-
-    const total = data.tasks.length;
-
-    const done = data.tasks.filter(
-        task => task.history[key]
-    ).length;
-
-    const percent = total
-        ? Math.round((done / total) * 100)
-        : 0;
-
-    document.getElementById("todayTasks").textContent = total;
-
-    document.getElementById("todayDone").textContent =
-        percent + "%";
-}
-
-function monthStats(){
-
-    const year = today.getFullYear();
-    const month = today.getMonth();
-
-    let total = 0;
-    let done = 0;
-
-    data.tasks.forEach(task => {
-
-        Object.entries(task.history).forEach(([date,value]) => {
-
-            const d = new Date(date);
-
-            if(
-                d.getFullYear() === year &&
-                d.getMonth() === month
-            ){
-                total++;
-
-                if(value) done++;
-            }
-
-        });
-
-    });
-
-    const percent = total
-        ? Math.round((done / total) * 100)
-        : 0;
-
-    document.getElementById("monthSuccess").textContent =
-        percent + "%";
-
-    document.getElementById("progressPercent").textContent =
-        percent + "%";
-
-    const degrees = percent * 3.6;
-
-    document.getElementById("progressCircle").style.background =
-        `conic-gradient(var(--primary) ${degrees}deg, rgba(139,92,246,.12) ${degrees}deg)`;
-
-    if(percent >= 80){
-
-        document.getElementById("motivation").textContent =
-            "فوق‌العاده‌ای! 🏆";
-
-        document.getElementById("progressDescription").textContent =
-            "این ماه عملکرد فوق‌العاده‌ای داشتی.";
-
-    }else if(percent >= 50){
-
-        document.getElementById("motivation").textContent =
-            "عالی پیش می‌ری! 🔥";
-
-        document.getElementById("progressDescription").textContent =
-            "ادامه بده؛ خیلی خوب داری جلو می‌ری.";
-
-    }else{
-
-        document.getElementById("motivation").textContent =
-            "شروع کنیم! 🚀";
-
-        document.getElementById("progressDescription").textContent =
-            "هر قدم کوچیک، تو رو به هدفت نزدیک‌تر می‌کنه.";
-    }
-}
-
-function renderCalendar(){
-
-    const calendar = document.getElementById("calendar");
-
-    const year = today.getFullYear();
-    const month = today.getMonth();
-
-    const monthNames = [
-        "ژانویه","فوریه","مارس","آوریل",
-        "مه","ژوئن","ژوئیه","اوت",
-        "سپتامبر","اکتبر","نوامبر","دسامبر"
-    ];
-
-    document.getElementById("monthName").textContent =
-        monthNames[month];
-
-    const first = new Date(year,month,1).getDay();
-    const days = new Date(year,month+1,0).getDate();
-
-    let html = "";
-
-    const names = [
-        "ی","د","س","چ","پ","ج","ش"
-    ];
-
-    names.forEach(n => {
-        html += `<div class="day-name">${n}</div>`;
-    });
-
-    for(let i=0;i<first;i++){
-        html += `<div class="day empty"></div>`;
-    }
-
-    for(let day=1;day<=days;day++){
-
-        const d = new Date(year,month,day);
-        const key = dateKey(d);
-
-        let total = data.tasks.length;
-
-        let done = data.tasks.filter(
-            task => task.history[key]
-        ).length;
-
-        let success = total > 0 && done === total;
-
-        let todayClass =
-            key === dateKey()
-            ? "today"
-            : "";
-
-        html += `
-        <div class="day ${success ? "success":""} ${todayClass}">
-            ${day}
-        </div>
-        `;
-    }
-
-    calendar.innerHTML = html;
-}
-
-function renderHabits(){
-
-    const box = document.getElementById("habitStats");
-
-    if(data.tasks.length === 0){
-
-        box.innerHTML =
-        `<div class="empty">هنوز آماری وجود ندارد.</div>`;
-
-        return;
-    }
-
-    box.innerHTML = data.tasks.map(task => {
-
-        const count = countDone(task);
-
-        const percent = Math.min(
-            100,
-            Math.round((count / 30) * 100)
-        );
-
-        return `
-        <div class="habit-item">
-
-            <div class="habit-head">
-                <span>${escapeHTML(task.name)}</span>
-                <span>${count} بار</span>
-            </div>
-
-            <div class="habit-bar">
-                <div
-                    class="habit-fill"
-                    style="width:${percent}%">
-                </div>
-            </div>
-
-        </div>
-        `;
-
-    }).join("");
-}
-
-function calculateStreak(){
-
-    let streak = 0;
-
-    const d = new Date();
-
-    while(true){
-
-        const key = dateKey(d);
-
-        const total = data.tasks.length;
-
-        if(total === 0) break;
-
-        const done = data.tasks.filter(
-            task => task.history[key]
-        ).length;
-
-        if(done !== total) break;
-
-        streak++;
-
-        d.setDate(d.getDate()-1);
-    }
-
-    document.getElementById("streak").textContent = streak;
-}
+/* ================= DATE ================= */
 
 function updateDate(){
+
+    const now = new Date();
 
     const options = {
         weekday:"long",
@@ -1237,80 +880,413 @@ function updateDate(){
         day:"numeric"
     };
 
-    const text = new Intl.DateTimeFormat(
-        "fa-IR",
-        options
-    ).format(new Date());
-
-    document.getElementById("todayText").textContent =
-        text;
-
-    document.getElementById("datePill").textContent =
-        text;
+    document.getElementById("currentDate").textContent =
+        now.toLocaleDateString("fa-IR",options);
 }
+
+/* ================= SAVE ================= */
+
+function saveData(){
+
+    localStorage.setItem(
+        "dreamPlannerTasks",
+        JSON.stringify(tasks)
+    );
+
+    localStorage.setItem(
+        "dreamPlannerActiveDays",
+        activeDays
+    );
+}
+
+/* ================= RENDER TASKS ================= */
+
+function renderTasks(){
+
+    const list = document.getElementById("taskList");
+
+    if(tasks.length === 0){
+
+        list.innerHTML = `
+            <div class="empty">
+                هنوز کاری اضافه نکرده‌ای
+            </div>
+        `;
+
+        updateStats();
+        return;
+    }
+
+    list.innerHTML = "";
+
+    tasks.forEach((task,index)=>{
+
+        const item = document.createElement("div");
+
+        item.className =
+            "task " + (task.done ? "done" : "");
+
+        item.innerHTML = `
+
+            <input
+                type="checkbox"
+                ${task.done ? "checked" : ""}
+                onchange="toggleTask(${index})"
+            >
+
+            <div class="task-text">
+                ${escapeHTML(task.text)}
+            </div>
+
+            <button
+                onclick="deleteTask(${index})"
+                style="
+                    border:0;
+                    background:none;
+                    color:#999;
+                    cursor:pointer;
+                    font-size:18px;
+                "
+            >
+                ×
+            </button>
+        `;
+
+        list.appendChild(item);
+
+    });
+
+    updateStats();
+}
+
+/* ================= ESCAPE ================= */
+
+function escapeHTML(text){
+
+    const div = document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+}
+
+/* ================= ADD TASK ================= */
+
+function addTask(){
+
+    const input =
+        document.getElementById("taskInput");
+
+    const text = input.value.trim();
+
+    if(!text) return;
+
+    tasks.push({
+        text:text,
+        done:false,
+        date:new Date().toISOString()
+    });
+
+    input.value = "";
+
+    saveData();
+
+    renderTasks();
+
+    closeModal();
+}
+
+/* ================= TOGGLE ================= */
+
+function toggleTask(index){
+
+    tasks[index].done =
+        !tasks[index].done;
+
+    saveData();
+
+    renderTasks();
+}
+
+/* ================= DELETE ================= */
+
+function deleteTask(index){
+
+    tasks.splice(index,1);
+
+    saveData();
+
+    renderTasks();
+}
+
+/* ================= STATS ================= */
+
+function updateStats(){
+
+    const total = tasks.length;
+
+    const completed =
+        tasks.filter(t=>t.done).length;
+
+    const percent =
+        total === 0
+        ? 0
+        : Math.round((completed / total) * 100);
+
+    document.getElementById("totalTasks")
+        .textContent = total;
+
+    document.getElementById("completedTasks")
+        .textContent = completed;
+
+    document.getElementById("completionPercent")
+        .textContent = percent + "%";
+
+    document.getElementById("monthlyPercent")
+        .textContent = percent + "%";
+
+    document.getElementById("monthlyProgress")
+        .style.width = percent + "%";
+
+    document.getElementById("monthlyCompleted")
+        .textContent = completed;
+
+    document.getElementById("activeDays")
+        .textContent = activeDays;
+
+    document.getElementById("habit1Percent")
+        .textContent = percent + "%";
+
+    document.getElementById("habit1Bar")
+        .style.width = percent + "%";
+
+    document.getElementById("habit2Percent")
+        .textContent = percent + "%";
+
+    document.getElementById("habit2Bar")
+        .style.width = percent + "%";
+}
+
+/* ================= MODAL ================= */
+
+function openModal(){
+
+    document
+        .getElementById("taskModal")
+        .classList.add("show");
+
+    setTimeout(()=>{
+        document
+            .getElementById("taskInput")
+            .focus();
+    },100);
+}
+
+function closeModal(){
+
+    document
+        .getElementById("taskModal")
+        .classList.remove("show");
+}
+
+document
+    .getElementById("taskModal")
+    .addEventListener("click",function(e){
+
+        if(e.target === this){
+            closeModal();
+        }
+
+    });
+
+document
+    .getElementById("taskInput")
+    .addEventListener("keydown",function(e){
+
+        if(e.key === "Enter"){
+            addTask();
+        }
+
+        if(e.key === "Escape"){
+            closeModal();
+        }
+
+    });
+
+/* ================= CALENDAR ================= */
+
+function generateCalendar(){
+
+    const calendar =
+        document.getElementById("calendar");
+
+    calendar.innerHTML = "";
+
+    const names = [
+        "ش",
+        "ی",
+        "د",
+        "س",
+        "چ",
+        "پ",
+        "ج"
+    ];
+
+    names.forEach(name=>{
+
+        const div =
+            document.createElement("div");
+
+        div.className = "day-name";
+
+        div.textContent = name;
+
+        calendar.appendChild(div);
+
+    });
+
+    const now = new Date();
+
+    const year = now.getFullYear();
+    const month = now.getMonth();
+
+    const firstDay =
+        new Date(year,month,1).getDay();
+
+    const days =
+        new Date(year,month + 1,0).getDate();
+
+    for(let i=0;i<firstDay;i++){
+
+        const empty =
+            document.createElement("div");
+
+        calendar.appendChild(empty);
+    }
+
+    for(let day=1;day<=days;day++){
+
+        const div =
+            document.createElement("div");
+
+        div.className = "day";
+
+        div.textContent = day;
+
+        if(day === now.getDate()){
+            div.classList.add("today");
+        }
+
+        div.onclick = ()=>{
+
+            document
+                .querySelectorAll(".calendar .selected")
+                .forEach(x=>x.classList.remove("selected"));
+
+            div.classList.add("selected");
+
+        };
+
+        calendar.appendChild(div);
+
+    }
+}
+
+/* ================= SECTION NAVIGATION ================= */
+
+function showSection(section){
+
+    document
+        .querySelectorAll(".menu button")
+        .forEach(btn=>btn.classList.remove("active"));
+
+    if(section === "dashboard"){
+
+        window.scrollTo({
+            top:0,
+            behavior:"smooth"
+        });
+
+        document
+            .querySelector(".menu button:nth-child(1)")
+            .classList.add("active");
+    }
+
+    if(section === "tasks"){
+
+        document
+            .getElementById("tasksPanel")
+            .scrollIntoView({
+                behavior:"smooth"
+            });
+
+        document
+            .querySelector(".menu button:nth-child(2)")
+            .classList.add("active");
+    }
+
+    if(section === "calendar"){
+
+        document
+            .getElementById("calendarPanel")
+            .scrollIntoView({
+                behavior:"smooth"
+            });
+
+        document
+            .querySelector(".menu button:nth-child(3)")
+            .classList.add("active");
+    }
+
+    if(section === "habits"){
+
+        document
+            .getElementById("habitsPanel")
+            .scrollIntoView({
+                behavior:"smooth"
+            });
+
+        document
+            .querySelector(".menu button:nth-child(4)")
+            .classList.add("active");
+    }
+}
+
+/* ================= THEME ================= */
 
 function toggleTheme(){
 
     document.body.classList.toggle("dark");
 
     localStorage.setItem(
-        "plannerDark",
+        "dreamPlannerDark",
         document.body.classList.contains("dark")
     );
 }
 
+/* ================= LOAD ================= */
+
 function loadTheme(){
 
-    if(localStorage.getItem("plannerDark") === "true"){
+    const dark =
+        localStorage.getItem("dreamPlannerDark");
+
+    if(dark === "true"){
         document.body.classList.add("dark");
     }
 }
 
-function scrollToTasks(){
+/* ================= START ================= */
 
-    document.getElementById("tasksPanel")
-        .scrollIntoView({behavior:"smooth"});
-}
+updateDate();
 
-function scrollToCalendar(){
+renderTasks();
 
-    document.getElementById("calendarPanel")
-        .scrollIntoView({behavior:"smooth"});
-}
-
-function scrollToHabits(){
-
-    document.getElementById("habitsPanel")
-        .scrollIntoView({behavior:"smooth"});
-}
-
-function escapeHTML(text){
-
-    return text
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-}
-
-function render(){
-
-    renderTasks();
-    todayStats();
-    monthStats();
-    renderCalendar();
-    renderHabits();
-    calculateStreak();
-    updateDate();
-
-}
+generateCalendar();
 
 loadTheme();
-render();
 
 </script>
 
 </body>
 </html>
-```
